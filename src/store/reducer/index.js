@@ -1,5 +1,8 @@
 const initialState = {
-    appName: 'Motic'
+    appName: 'Motic',
+    isLogin: false,
+    loggedUser: null
+
 }
 
 export default (state = initialState, { type, payload }) => {

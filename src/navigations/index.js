@@ -3,21 +3,79 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon2 from "react-native-vector-icons/FontAwesome";
+import Icon3 from "react-native-vector-icons/Ionicons";
 
 //init call functions
 const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 //Component Imports
 import LandingScreen from "../screen/landing"
 import HomeScreen from "../screen/home"
+import ProfileScreen from "../screen/profile"
+import MyTicketsScreen from "../screen/myTickets"
+
+//grouping stack
+function HomeStack() {
+    return (
+        <Stack.Navigator initialRouteName={"Home"}>
+            <Stack.Screen name="Landing" component={LandingScreen}/>
+            {/* <Stack.Screen name="Profile" component={ProfileScreen}/> */}
+            <Stack.Screen name="Home" component={HomeScreen} options={{
+                headerShown: false
+            }}/>
+        </Stack.Navigator>
+    )
+}
 
 const index = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Landing" component={LandingScreen} />
-                <Stack.Screen name="Home" component={HomeScreen} />
-            </Stack.Navigator>
+            <Tab.Navigator initialRouteName={"Home"}>
+                <Tab.Screen name="Home" component={HomeStack} options={({ route }) => ({
+                    tabBarIcon: ({ focused }) => {
+                        let iconColor;
+                        
+                        if (route.name === 'Home') {
+                        console.log(route.name,'ini route.namenya')
+                        iconColor = focused
+                            ? 'skyblue'
+                            : 'white';
+                        } 
+
+                        return <Icon name='home-outline' size={30} color={iconColor}/>;
+                    }
+                })}/>
+                <Tab.Screen name="My Tickets" component={MyTicketsScreen} options={({ route }) => ({
+                    tabBarIcon: ({ focused }) => {
+                        let iconColor;
+                        
+                        if (route.name === 'My Tickets') {
+                        console.log(route.name,'ini route.namenya')
+                        iconColor = focused
+                            ? 'skyblue'
+                            : 'white';
+                        } 
+
+                        return <Icon name='ticket-outline' size={30} color={iconColor}/>;
+                    }
+                })}/>
+                <Tab.Screen name="Profile" component={ProfileScreen} options={({ route }) => ({
+                    tabBarIcon: ({ focused }) => {
+                        let iconColor;
+                        
+                        if (route.name === 'Profile') {
+                        iconColor = focused
+                            ? 'skyblue'
+                            : 'white';
+                        } 
+                        return <Icon2 name='user-circle-o' size={30} color={iconColor}/>;
+                    }
+                })}/>
+            </Tab.Navigator>
         </NavigationContainer>
     )
 }
