@@ -1,9 +1,40 @@
-import React from 'react'
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native'
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React, {useState, useEffect} from 'react'
+import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native'
+import URL from '../../config'
 
-
+console.log(URL, 'ini di home')
 const index = (props) => {
+    //state
+    const [nowPlaying, setNowPlaying] = useState([1,2,3,4,5])
+    const [genre, setGenre] = useState([
+        {idx: 1,title: 'pertama'},
+        {idx: 2,title: 'kedua'},
+        {idx: 3,title: "ketiga"},
+        {idx: 4,title: 'keempat'},
+        {idx: 5,title:'kelima'}
+    ])
+    const [comingSoon, setComingSoon] = useState([1,2,3,4,5])
+    
+
+    //local component
+    const nowPlayingComp = () => {
+        return (
+            <TouchableOpacity onPress={() => props.navigation.navigate('Detail')}>
+                <View style={styles.now_playing_card}/> 
+            </TouchableOpacity>
+        )
+    }
+    const genreComp = (input) => {
+        return  (
+            <View style={styles.movie_category_card}>
+                <View style={styles.movie_category_card_pict}/>
+                <Text>{input.title}</Text>
+            </View>
+        )
+    }
+    const comingSoonComp = () => {
+        return <View style={styles.coming_soon_card}/>
+    }
     return (
         <View style={styles.container}>
             {/* <Text>👺ini halaman home👺</Text> */}
@@ -20,36 +51,42 @@ const index = (props) => {
             <View style={styles.now_playing}>
                 <Text>Now Playing</Text>
                 <View style={styles.now_playing_list}>
-                    <View style={styles.now_playing_card}/>
-                    <View style={styles.now_playing_card}/>
-                    <View style={styles.now_playing_card}/>
+                <FlatList
+                    data={nowPlaying}
+                    renderItem={nowPlayingComp}
+                    keyExtractor={item => item.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
                 </View>
             </View>
             {/* movie genre */}
             <View style={styles.movie_category}>
                 <Text>Movie Category</Text>
                 <View style={styles.movie_category_list}>
-                    <View style={styles.movie_category_card}>
-                        <View style={styles.movie_category_card_pict}/>
-                        <Text>pertama</Text>
-                    </View>
-                    <View style={styles.movie_category_card}>
-                        <View style={styles.movie_category_card_pict}/>
-                        <Text>kedua</Text>
-                    </View>
-                    <View style={styles.movie_category_card}>
-                        <View style={styles.movie_category_card_pict}/>
-                        <Text>ketiga</Text>
-                    </View>
+                <FlatList
+                    data={genre}
+                    renderItem={item => {
+                        console.log(item,'ini lohhh itemnya')
+                        return genreComp(item.item)
+                    }}
+                    keyExtractor={item => item.idx.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
                 </View>
             </View>
             {/* comingsoon */}
             <View style={styles.coming_soon}>
                 <Text>Coming Soon</Text>
                 <View style={styles.coming_soon_list}>
-                    <View style={styles.coming_soon_card}/>
-                    <View style={styles.coming_soon_card}/>
-                    <View style={styles.coming_soon_card}/>
+                <FlatList
+                    data={comingSoon}
+                    renderItem={comingSoonComp}
+                    keyExtractor={item => item.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
                 </View>
             </View>
             {/* banner */}
@@ -89,7 +126,7 @@ const styles = StyleSheet.create({
     },
     now_playing: {
         margin: 10,
-        borderWidth: 1
+        // borderWidth: 1
     },
     now_playing_list: {
         flexDirection: "row"
@@ -102,8 +139,7 @@ const styles = StyleSheet.create({
         margin: 5
     },
     movie_category: {
-        margin: 10,
-        borderWidth: 1
+        margin: 10
     },
     movie_category_list: {
         flexDirection: "row"
@@ -121,7 +157,6 @@ const styles = StyleSheet.create({
     },
     coming_soon: {
         margin: 10,
-        borderWidth: 1
     },
     coming_soon_list: {
         flexDirection: "row"

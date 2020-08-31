@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -16,6 +16,7 @@ const Tab = createBottomTabNavigator()
 import LandingScreen from "../screen/landing"
 import HomeScreen from "../screen/home"
 import ProfileScreen from "../screen/profile"
+import DetailScreen from "../screen/home/details"
 import MyTicketsScreen from "../screen/myTickets"
 
 //grouping stack
@@ -23,7 +24,11 @@ function HomeStack() {
     return (
         <Stack.Navigator initialRouteName={"Home"}>
             <Stack.Screen name="Landing" component={LandingScreen}/>
-            {/* <Stack.Screen name="Profile" component={ProfileScreen}/> */}
+            <Stack.Screen name="Detail" component={DetailScreen} options={{
+                title: '',
+                headerTransparent: true,
+                headerTintColor: 'black'
+            }}/>
             <Stack.Screen name="Home" component={HomeScreen} options={{
                 headerShown: false
             }}/>
@@ -43,7 +48,7 @@ const index = () => {
                         console.log(route.name,'ini route.namenya')
                         iconColor = focused
                             ? 'skyblue'
-                            : 'white';
+                            : 'gray';
                         } 
 
                         return <Icon name='home-outline' size={30} color={iconColor}/>;
@@ -57,7 +62,7 @@ const index = () => {
                         console.log(route.name,'ini route.namenya')
                         iconColor = focused
                             ? 'skyblue'
-                            : 'white';
+                            : 'gray';
                         } 
 
                         return <Icon name='ticket-outline' size={30} color={iconColor}/>;
@@ -70,7 +75,7 @@ const index = () => {
                         if (route.name === 'Profile') {
                         iconColor = focused
                             ? 'skyblue'
-                            : 'white';
+                            : 'gray';
                         } 
                         return <Icon2 name='user-circle-o' size={30} color={iconColor}/>;
                     }
