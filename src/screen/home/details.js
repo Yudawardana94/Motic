@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, View, Dimensions, FlatList, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import IconFA from 'react-native-vector-icons/FontAwesome'
 // import Icon2 from "react-native-vector-icons/FontAwesome";
 
@@ -63,9 +63,11 @@ export default function details(props) {
                 />
             </View>
             {/* book button */}
-            <View style={styles.book_button}>
-                    <Text>Continue to Book</Text>
-            </View>
+            <TouchableOpacity onPress={() => props.navigation.navigate('BookSeat')}>
+                <View style={styles.book_button}>
+                        <Text>Continue to Book</Text>
+                </View>
+            </TouchableOpacity>
             </ScrollView>
         </View>
     )

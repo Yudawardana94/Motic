@@ -18,6 +18,15 @@ import HomeScreen from "../screen/home"
 import ProfileScreen from "../screen/profile"
 import DetailScreen from "../screen/home/details"
 import MyTicketsScreen from "../screen/myTickets"
+import CheckoutScreen from "../screen/home/checkout"
+import BookScreen from "../screen/home/book"
+import BookSeatScreen from "../screen/home/bookSeat"
+import MyWalletScreen from "../screen/profile/myWallet"
+import HelpCenterScreen from "../screen/profile/helpCenter"
+import EditProfileScreen from "../screen/profile/editProfile"
+import ChangeLanguageScreen from "../screen/profile/changeLanguage"
+import TopUpScreen from '../screen/service/topUp'
+import SuccessScreen from '../screen/response/success'
 
 //grouping stack
 function HomeStack() {
@@ -29,18 +38,31 @@ function HomeStack() {
                 headerTransparent: true,
                 headerTintColor: 'black'
             }}/>
+            <Stack.Screen name="Checkout" component={CheckoutScreen} options={{
+                title: '',
+                headerTransparent: true,
+                headerTintColor: 'black'
+            }}/>
+            <Stack.Screen name="Book" component={BookScreen} options={{
+                title: '',
+                headerTransparent: true,
+                headerTintColor: 'black'
+            }}/>
+            <Stack.Screen name="BookSeat" component={BookSeatScreen} options={{
+                title: '',
+                headerTransparent: true,
+                headerTintColor: 'black'
+            }}/>
             <Stack.Screen name="Home" component={HomeScreen} options={{
                 headerShown: false
             }}/>
         </Stack.Navigator>
     )
 }
-
-const index = () => {
+function visibleTabStack() {
     return (
-        <NavigationContainer>
-            <Tab.Navigator initialRouteName={"Home"}>
-                <Tab.Screen name="Home" component={HomeStack} options={({ route }) => ({
+        <Tab.Navigator initialRouteName={"Home"}>
+                <Tab.Screen name="Home" component={HomeScreen} options={({ route }) => ({
                     tabBarIcon: ({ focused }) => {
                         let iconColor;
                         
@@ -68,7 +90,7 @@ const index = () => {
                         return <Icon name='ticket-outline' size={30} color={iconColor}/>;
                     }
                 })}/>
-                <Tab.Screen name="Profile" component={ProfileScreen} options={({ route }) => ({
+                <Tab.Screen name="Profile"  component={ProfileScreen} options={({ route }) => ({
                     tabBarIcon: ({ focused }) => {
                         let iconColor;
                         
@@ -81,10 +103,89 @@ const index = () => {
                     }
                 })}/>
             </Tab.Navigator>
+    )
+}
+function ProfileStack() {
+    return(
+        <Stack.Navigator initialRouteName={"Profile"}>
+            <Stack.Screen name="MyWallet" component={MyWalletScreen} options={{
+                title: '',
+                headerTransparent: true,
+                headerTintColor: 'black'
+            }}/>
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{
+                title: '',
+                headerTransparent: true,
+                headerTintColor: 'black'
+            }}/>
+            <Stack.Screen name="Profile" component={HomeScreen} options={{
+                headerShown: false
+            }}/>
+        </Stack.Navigator>
+    )
+}
+
+const index = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName={"TopUp"}>
+                <Stack.Screen name="Landing" component={LandingScreen}/>
+                <Stack.Screen name="Detail" component={DetailScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="Checkout" component={CheckoutScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="Book" component={BookScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="BookSeat" component={BookSeatScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="Home" component={visibleTabStack} options={{
+                    headerShown: false
+                }}/>
+                <Stack.Screen name="MyWallet" component={MyWalletScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="ChangeLanguage" component={ChangeLanguageScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="HelpCenter" component={HelpCenterScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="TopUp" component={TopUpScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+                <Stack.Screen name="Success" component={SuccessScreen} options={{
+                    title: '',
+                    headerTransparent: true,
+                    headerTintColor: 'black'
+                }}/>
+            </Stack.Navigator>
         </NavigationContainer>
     )
 }
 
 export default index
-
-const styles = StyleSheet.create({})

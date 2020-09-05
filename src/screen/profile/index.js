@@ -1,16 +1,41 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, View, Button, TouchableOpacity, FlatList} from 'react-native'
+import { StyleSheet, Text, View, Button, TouchableOpacity, FlatList, Linking} from 'react-native'
 
 export default function Profile(props) {
     //state
-    const [profileMenu, setProfileMenu] = useState(['Edit Profile', 'My Wallet', 'Change Language', 'Help Center', 'Rate Motic App'])
+    const [profileMenu, setProfileMenu] = useState([
+        {
+            name: 'Edit Profile',
+            route: 'EditProfile'
+        }, {
+            name: 'My Wallet',
+            route: 'MyWallet'
+        }, {
+            name: 'Change Language',
+            route: 'ChangeLanguage'
+        }, {
+            name: 'Help Center',
+            route: 'HelpCenter'
+        }, {
+            name: 'Rate Motic App',
+            route: ''
+        }
+    ])
+    let contactNumber = '081223847'
 
     //component
     const list_menu = (input) => {
-        return <TouchableOpacity>
+        return <TouchableOpacity onPress={() => {
+            if(input.route !== ''){
+                props.navigation.navigate(input.route)
+            }
+            if(input.name.includes('Rate')){
+                Linking.openURL('http://play.google.com/store/apps');
+            }
+        }}>
             <View style={styles.lis_menu_each}>
                 <Text>Ico</Text>
-                <Text style={styles.text_list_menu_each}>{input}</Text>
+                <Text style={styles.text_list_menu_each}>{input.name}</Text>
             </View>
         </TouchableOpacity>
     }
@@ -28,7 +53,7 @@ export default function Profile(props) {
                 renderItem={({item}) => {
                     return list_menu(item)
                 }}
-                keyExtractor={item => item.toString()}
+                keyExtractor={item => item.name.toString()}
                 showsHorizontalScrollIndicator={false}
             />
         </View>
