@@ -54,7 +54,7 @@ export default function details(props) {
                 <FlatList
                     data={cast}
                     renderItem={item => {
-                        console.log(item,'ini lohhh itemnya')
+                        // console.log(item,'ini lohhh itemnya')
                         return castComp(item.item)
                     }}
                     keyExtractor={item => item.idx.toString()}

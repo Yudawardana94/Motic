@@ -1,40 +1,70 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import URL from '../../config'
+import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity , Image} from 'react-native'
+import {connect} from 'react-redux'
 
-console.log(URL, 'ini di home')
+//import action
+import {getinitialData} from '../../store/action'
+
+let imageURL = 'https://image.tmdb.org/t/p/original'
+
 const index = (props) => {
+    // console.log(props.appName,'ini appnamenya buoosss')
+    // console.log(props?. initialNowPlaying?. length,'ini initial now playing buoosss')
     //state
-    const [nowPlaying, setNowPlaying] = useState([1,2,3,4,5])
-    const [genre, setGenre] = useState([
-        {idx: 1,title: 'pertama'},
-        {idx: 2,title: 'kedua'},
-        {idx: 3,title: "ketiga"},
-        {idx: 4,title: 'keempat'},
-        {idx: 5,title:'kelima'}
-    ])
-    const [comingSoon, setComingSoon] = useState([1,2,3,4,5])
-    
+    // const [nowPlaying, setNowPlaying] = useState([1,2,3,4,5])
+    // const [genre, setGenre] = useState([
+    //     {idx: 1,title: 'pertama'},
+    //     {idx: 2,title: 'kedua'},
+    //     {idx: 3,title: "ketiga"},
+    //     {idx: 4,title: 'keempat'},
+    //     {idx: 5,title:'kelima'}
+    // ])
+    // const [comingSoon, setComingSoon] = useState([1,2,3,4,5])
+
+    //function
+    useEffect(() => {
+        props.getinitialData()
+    }, [])
 
     //local component
-    const nowPlayingComp = () => {
+    const nowPlayingComp = (input) => {
         return (
             <TouchableOpacity onPress={() => props.navigation.navigate('Detail')}>
-                <View style={styles.now_playing_card}/> 
+                <View style={styles.now_playing_card}>
+                    <Image
+                        style={styles.now_playing_pic}
+                        source={{
+                        uri: `${imageURL}${input.poster_path}`,
+                        }}
+                    />
+                </View> 
+                <Text style={{alignSelf: "center"}}>{input.title}</Text>
             </TouchableOpacity>
         )
     }
     const genreComp = (input) => {
         return  (
             <View style={styles.movie_category_card}>
-                <View style={styles.movie_category_card_pict}/>
-                <Text>{input.title}</Text>
+                <View style={styles.movie_category_card_pict}>
+                    <Text>{input.name}</Text>
+                </View>
             </View>
         )
     }
-    const comingSoonComp = () => {
-        return <View style={styles.coming_soon_card}/>
+    const comingSoonComp = (input) => {
+        return (
+            <View style={styles.coming_soon_card}>
+                <Image
+                    style={styles.now_playing_pic}
+                    source={{
+                    uri: `${imageURL}${input.backdrop_path}`,
+                    }}
+                />
+            </View> 
+            // <Text style={{alignSelf: "center"}}>{input.title}</Text>
+        )
     }
+    // console.log(props.initialNowPlaying.legth,'ini initial now playing buoosss')
     return (
         <View style={styles.container}>
             {/* <Text>👺ini halaman home👺</Text> */}
@@ -52,9 +82,12 @@ const index = (props) => {
                 <Text>Now Playing</Text>
                 <View style={styles.now_playing_list}>
                 <FlatList
-                    data={nowPlaying}
-                    renderItem={nowPlayingComp}
-                    keyExtractor={item => item.toString()}
+                    data={props?. initialNowPlaying}
+                    renderItem={({item}) => {
+                        // console.log(item,'ini lohhh itemnya')
+                        return nowPlayingComp(item)
+                    }}
+                    keyExtractor={item => item.id}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
@@ -64,16 +97,18 @@ const index = (props) => {
             <View style={styles.movie_category}>
                 <Text>Movie Category</Text>
                 <View style={styles.movie_category_list}>
-                <FlatList
-                    data={genre}
-                    renderItem={item => {
-                        console.log(item,'ini lohhh itemnya')
-                        return genreComp(item.item)
-                    }}
-                    keyExtractor={item => item.idx.toString()}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                />
+                    <FlatList
+                        data={props?. initialGenre}
+                        renderItem={({item}) => {
+                            // console.log(item,'ini lohhh itemnya')
+                            return genreComp(item)
+                        }}
+                        keyExtractor={item => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
+                    <View style={styles.movie_category_card}>
+            </View>
                 </View>
             </View>
             {/* comingsoon */}
@@ -81,9 +116,11 @@ const index = (props) => {
                 <Text>Coming Soon</Text>
                 <View style={styles.coming_soon_list}>
                 <FlatList
-                    data={comingSoon}
-                    renderItem={comingSoonComp}
-                    keyExtractor={item => item.toString()}
+                    data={props?. initialCommingSoon}
+                    renderItem={({item}) => {
+                        return comingSoonComp(item)
+                    }}
+                    keyExtractor={item => item.id}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
@@ -98,7 +135,14 @@ const index = (props) => {
     )
 }
 
-export default index
+const mapStateToProps = state => {
+    return state
+}
+const mapDispatchToProps = {
+    getinitialData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(index)
 
 const styles = StyleSheet.create({
     container: {
@@ -135,7 +179,14 @@ const styles = StyleSheet.create({
         height: 250,
         borderRadius: 5,
         backgroundColor: "#c4c4c4",
-        margin: 5
+        margin: 5,
+        shadowColor: "#000",
+        elevation: 5,
+    },
+    now_playing_pic: {
+        width: '100%', 
+        height: '100%', 
+        borderRadius: 3,
     },
     movie_category: {
         margin: 10
@@ -152,7 +203,9 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         margin: 5,
-        borderRadius: 3
+        borderRadius: 3,
+        alignItems: "center",
+        justifyContent: 'center'
     },
     coming_soon: {
         margin: 10,

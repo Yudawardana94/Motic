@@ -57,7 +57,7 @@ export default function book(props) {
         )
     }
     const listSchedule = (input, studioName) => {
-        console.log(input)
+        // console.log(input)
         return (
             <TouchableOpacity onPress={() => setChoosed({
                 studio: studioName,

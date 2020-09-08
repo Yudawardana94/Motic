@@ -39,7 +39,7 @@ export default function bookSeat(props) {
             <TouchableOpacity onPress={() => {
                 if(selected.length < maxBook) {
                     let index = selected.indexOf(`${column}${row}`)
-                    console.log(index)
+                    // console.log(index)
                     if(index >= 0) {
                         let newArr = [...selected]
                         newArr.splice(index,1)
@@ -49,7 +49,7 @@ export default function bookSeat(props) {
                     }
                 } else {
                     let index = selected.indexOf(`${column}${row}`)
-                    console.log(index)
+                    // console.log(index)
                     if(index >= 0) {
                         let newArr = [...selected]
                         newArr.splice(index,1)

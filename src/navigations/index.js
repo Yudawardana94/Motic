@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon2 from "react-native-vector-icons/FontAwesome";
 import Icon3 from "react-native-vector-icons/Ionicons";
@@ -67,7 +67,7 @@ function visibleTabStack() {
                         let iconColor;
                         
                         if (route.name === 'Home') {
-                        console.log(route.name,'ini route.namenya')
+                        // console.log(route.name,'ini route.namenya')
                         iconColor = focused
                             ? 'skyblue'
                             : 'gray';
@@ -81,7 +81,7 @@ function visibleTabStack() {
                         let iconColor;
                         
                         if (route.name === 'My Tickets') {
-                        console.log(route.name,'ini route.namenya')
+                        // console.log(route.name,'ini route.namenya')
                         iconColor = focused
                             ? 'skyblue'
                             : 'gray';
@@ -128,7 +128,7 @@ function ProfileStack() {
 const index = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={"TopUp"}>
+            <Stack.Navigator initialRouteName={"Home"}>
                 <Stack.Screen name="Landing" component={LandingScreen}/>
                 <Stack.Screen name="Detail" component={DetailScreen} options={{
                     title: '',
