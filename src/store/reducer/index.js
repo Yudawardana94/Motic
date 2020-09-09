@@ -1,10 +1,11 @@
 const initialState = {
     appName: 'Motic',
-    isLogin: false,
+    isLogin: true,
     loggedUser: null,
     initialNowPlaying: [], 
     initialGenre: [], 
-    initialCommingSoon: []
+    initialCommingSoon: [],
+    detailMovie: {}
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -13,6 +14,11 @@ export default (state = initialState, { type, payload }) => {
     case 'SET_INITIAL_VALUE':
         return { ...state, ...payload }
 
+    case 'SET_DETAIL_MOVIE': 
+        return {...state, detailMovie : {...payload}}
+    
+    case 'SET_EMPTY_DETAIL_MOVIE': 
+        return {...state, detailMovie : {}}
     default:
         return state
     }

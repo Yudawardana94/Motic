@@ -1,40 +1,31 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity , Image} from 'react-native'
 import {connect} from 'react-redux'
+import {REACT_APP_IMAGE_URL} from '@env'
 
 //import action
-import {getinitialData} from '../../store/action'
-
-let imageURL = 'https://image.tmdb.org/t/p/original'
+import {getInitialData} from '../../store/action'
 
 const index = (props) => {
     // console.log(props.appName,'ini appnamenya buoosss')
     // console.log(props?. initialNowPlaying?. length,'ini initial now playing buoosss')
     //state
-    // const [nowPlaying, setNowPlaying] = useState([1,2,3,4,5])
-    // const [genre, setGenre] = useState([
-    //     {idx: 1,title: 'pertama'},
-    //     {idx: 2,title: 'kedua'},
-    //     {idx: 3,title: "ketiga"},
-    //     {idx: 4,title: 'keempat'},
-    //     {idx: 5,title:'kelima'}
-    // ])
-    // const [comingSoon, setComingSoon] = useState([1,2,3,4,5])
+    console.log(REACT_APP_IMAGE_URL,'ini image urlnya')
 
     //function
     useEffect(() => {
-        props.getinitialData()
+        props.getInitialData()
     }, [])
 
     //local component
     const nowPlayingComp = (input) => {
         return (
-            <TouchableOpacity onPress={() => props.navigation.navigate('Detail')}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Detail',{id: input.id})}>
                 <View style={styles.now_playing_card}>
                     <Image
                         style={styles.now_playing_pic}
                         source={{
-                        uri: `${imageURL}${input.poster_path}`,
+                        uri: `${REACT_APP_IMAGE_URL}${input.poster_path}`,
                         }}
                     />
                 </View> 
@@ -57,17 +48,15 @@ const index = (props) => {
                 <Image
                     style={styles.now_playing_pic}
                     source={{
-                    uri: `${imageURL}${input.backdrop_path}`,
+                    uri: `${REACT_APP_IMAGE_URL}${input.backdrop_path}`,
                     }}
                 />
             </View> 
             // <Text style={{alignSelf: "center"}}>{input.title}</Text>
         )
     }
-    // console.log(props.initialNowPlaying.legth,'ini initial now playing buoosss')
     return (
         <View style={styles.container}>
-            {/* <Text>👺ini halaman home👺</Text> */}
             <ScrollView style={{backgroundColor: "#pink", marginBottom: 10}}>
                 {/* //account info */}
             <View style={styles.account_info}>
@@ -87,7 +76,7 @@ const index = (props) => {
                         // console.log(item,'ini lohhh itemnya')
                         return nowPlayingComp(item)
                     }}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
@@ -103,7 +92,7 @@ const index = (props) => {
                             // console.log(item,'ini lohhh itemnya')
                             return genreComp(item)
                         }}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item.id.toString()}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     />
@@ -120,7 +109,7 @@ const index = (props) => {
                     renderItem={({item}) => {
                         return comingSoonComp(item)
                     }}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
@@ -139,7 +128,7 @@ const mapStateToProps = state => {
     return state
 }
 const mapDispatchToProps = {
-    getinitialData
+    getInitialData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)
